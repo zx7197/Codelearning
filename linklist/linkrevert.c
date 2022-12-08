@@ -133,7 +133,7 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
 }
 
 /***
-*   使用  -fsanitize=address -fno-omit-frame-pointer编译选项如下：
+*   使用  -fsanitize=address -fno-omit-frame-pointer编译选项原因如下：
 *    使用该版本代码，leetcode提交报错
         AddressSanitizer: heap-buffer-overflow on address 0x6020000001cc at pc…
 *    自己编译运行却未报错（gcc linkrevert.c -o linkrevert）
