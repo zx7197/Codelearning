@@ -13,9 +13,9 @@ gcc linkrevert.c -o1 -g -fsanitize=address -fno-omit-frame-pointer -o linkrevert
       struct ListNode *next;
  };
  struct ListNodeDouble {
-      int val;
-       struct ListNodeDouble *prev;
-      struct ListNodeDouble *next;
+        int val;
+        struct ListNodeDouble *prev;
+        struct ListNodeDouble *next;
  };
  typedef struct Arr //定义一个结构体 包含一个数据域和一个指针域
 {
@@ -61,6 +61,18 @@ struct ListNode* addTwoNumbers_anser(struct ListNode* l1, struct ListNode* l2){
 
 }
 /**leetcode  第2题
+示例 1：
+输入：l1 = [2,4,3], l2 = [5,6,4]
+输出：[7,0,8]
+解释：342 + 465 = 807.
+示例 2：
+
+输入：l1 = [0], l2 = [0]
+输出：[0]
+示例 3：
+
+输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+输出：[8,9,9,9,0,0,0,1]
 **/
 struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
     struct ListNode* l3=NULL;
@@ -119,6 +131,72 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
     }
     return init;
 }
+
+/***
+*   使用  -fsanitize=address -fno-omit-frame-pointer编译选项如下：
+*    使用该版本代码，leetcode提交报错
+        AddressSanitizer: heap-buffer-overflow on address 0x6020000001cc at pc…
+*    自己编译运行却未报错（gcc linkrevert.c -o linkrevert）
+     原因是：
+     LeetCode使用了AddressSanitizer检查了是否存在内存非法访问,一般是数组越界，上下都有可能
+     Address Sanitizer（ASan）是一个快速的内存错误检测工具。从gcc 4.8开始，AddressSanitizer成为gcc的一部分
+*    https://www.jianshu.com/p/3a2df9b7c353
+     用-fsanitize=address选项编译和链接你的程序。
+     用-fno-omit-frame-pointer编译，以得到更容易理解stack trace。
+     可选择-O1或者更高的优化级别编译   
+**/
+struct ListNode* addTwoNumbers_001(struct ListNode* l1, struct ListNode* l2){
+    struct ListNode* l3=NULL;
+    struct ListNode* p1=NULL;
+    struct ListNode* p2=NULL;
+    struct ListNode* new=NULL;
+    struct ListNode* init=NULL;
+    int count=0;//进位
+
+    p1=l1;
+    p2=l2;
+    
+    while(p1!=NULL||p2!=NULL)
+    {
+        new=(struct ListNode*)malloc(sizeof(new));
+        if(p1==NULL)
+        {
+             new->val=p2->val+count;
+            p2=p2->next;
+        }
+        else if(p2==NULL)
+        {
+            new->val=p1->val+count;
+            p1=p1->next;
+
+        }
+         
+         else
+         {
+             new->val=(p2->val+p1->val+count)%10;
+             count=(p2->val+p1->val+count)/10;
+             p1=p1->next;
+             p2=p2->next;
+
+         }
+         if(l3==NULL)
+         {
+             l3=new;
+             init=new;
+         }
+         else
+         {
+             l3->next=new;
+             l3=l3->next;
+
+         }
+
+    }
+    return init;
+   
+
+
+}
 //单链表反转  
 //思路：构建一个双链表 把单链表变成双链表，然后双链表倒序 变成逆向单链表
 struct ListNode* revert(struct ListNode* l1)
@@ -172,6 +250,7 @@ struct ListNode* revert(struct ListNode* l1)
 
 
 }
+
 void test()
 {
 
@@ -216,7 +295,7 @@ int main()
     struct ListNode* a21;
     struct ListNode* a22;
     struct ListNode* a23;
-    test();
+    //test();
 
     a11=malloc(sizeof(struct ListNode));
     a12=malloc(sizeof(struct ListNode));
@@ -244,7 +323,7 @@ int main()
    a23->val=4;
     a23->next=NULL;
      printf("okokokok44444\n");
-    a1=addTwoNumbers(a11, a21);
+    a1=addTwoNumbers_001(a11, a21);
 
     printf("sas\n");
       printf("1=%d\n",a1->val);
