@@ -202,6 +202,7 @@ struct ListNode* addTwoNumbers_001(struct ListNode* l1, struct ListNode* l2){
 struct ListNode* revert(struct ListNode* l1)
 {
      struct ListNode* init=NULL;
+     struct ListNode* init2=NULL;
       struct ListNode* Listtmp=NULL;
      struct ListNodeDouble * listDouble22=NULL;
      struct ListNodeDouble * listDouble=NULL;
@@ -233,6 +234,7 @@ struct ListNode* revert(struct ListNode* l1)
          if(init==NULL)
          {
             init=Listtmp;
+            init2=Listtmp;
          }
          else
          {
@@ -244,48 +246,74 @@ struct ListNode* revert(struct ListNode* l1)
 
        }
 
-     return init;
+     return init2;
 
 
 
 
 }
+      
 
-void test()
+struct ListNode*  createLinkedlist()
 {
 
-    Node head,last,p;
-        int n,number;
-        int i=0;
-        head=(Node)malloc(sizeof(struct Arr));
-        printf("请输入建立的链表长度:");
-        scanf("%d",&n);
-        for(i = 0;i < n;i++)
+    struct ListNode *head,*last,*p;
+    int n,number;
+    int i=0;
+    head=(struct ListNode*)malloc(sizeof(struct ListNode));
+    printf("请输入建立的链表长度:");
+    scanf("%d",&n);
+    for(i = 0;i < n;i++)
+    {
+        p=(struct ListNode*)malloc(sizeof(struct ListNode));
+        printf("请输入第%d个节点的元素值:\n",i+1);
+        scanf("%d",&number);
+        p->val=number;
+        if(i==0)
         {
-            p=(Node)malloc(sizeof(struct Arr));
-            printf("请输入第%d个节点的元素值:\n",i+1);
-            scanf("%d",&number);
-            p->val=number;
-            if(i==0)
-            {
-                head=p;
-                last=head;//此步骤很关键，不能掉
-            }
-            else
-            {
-                last->next=p;
-                last=p;
-                last->next=NULL;
-            }
+            head=p;
+            last=head;//此步骤很关键，不能掉
         }
-        while(head)
+        else
         {
-            printf("%d ",head->val);
-            head=head->next;
+            last->next=p;
+            last=p;
+            last->next=NULL;
         }
+    }
+    // while(head)
+    // {
+    //     printf("%d ",head->val);
+    //     head=head->next;
+    // }
+    return head;
 
 }
+int linkedlist_revert001()
+{
+    struct ListNode* a12;
+    struct ListNode* a21;
+    //创建链表
+    a12=createLinkedlist();
+    //反转链表
+    a21=revert(a12);
+    printf("反转前");
+    while(a12)
+    {
+        printf("a1=%d ",a12->val);
+        a12=a12->next;
+    }
+    printf("反转后");
+    while(a21)
+    {
+        printf("%d ",a21->val);
+        a21=a21->next;
+    }
 
+
+
+    return 0;
+}
 int main()
 {
     struct ListNode* a1;
@@ -295,41 +323,54 @@ int main()
     struct ListNode* a21;
     struct ListNode* a22;
     struct ListNode* a23;
+    int sel;
+    printf("*********************************************\n");
+    printf("1:链表反转练习\n");
+    scanf("%d",&sel);
     //test();
-
-    a11=malloc(sizeof(struct ListNode));
-    a12=malloc(sizeof(struct ListNode));
-    a13=(struct ListNode*)malloc(sizeof(struct ListNode));
-    a21=(struct ListNode*)malloc(sizeof(struct ListNode));
-    a22=(struct ListNode*)malloc(sizeof(struct ListNode));
-    a23=(struct ListNode*)malloc(sizeof(struct ListNode));
-   
-     printf("ccccccccccccc\n");
+    switch (sel)
+    {
+    case  1/* constant-expression */:
+        /* code */
+        linkedlist_revert001();
+        break;
     
-    //free(a11->next);
-    a11->next=a12;
-   a11->val=2;
-    printf("okokokok\n");
-   a12->val=4;
-   a12->next=a13;
-   a13->val=3;
-   a13->next=NULL;
-     printf("a13\n");
-    //////////////////////////////////////////
-    a21->val=5;
-    a21->next=a22;
-    a22->val=6;
-   a22->next=a23;
-   a23->val=4;
-    a23->next=NULL;
-     printf("okokokok44444\n");
-    a1=addTwoNumbers_001(a11, a21);
+    default:
+        break;
+    }
+//     a11=malloc(sizeof(struct ListNode));
+//     a12=malloc(sizeof(struct ListNode));
+//     a13=(struct ListNode*)malloc(sizeof(struct ListNode));
+//     a21=(struct ListNode*)malloc(sizeof(struct ListNode));
+//     a22=(struct ListNode*)malloc(sizeof(struct ListNode));
+//     a23=(struct ListNode*)malloc(sizeof(struct ListNode));
+   
+//      printf("ccccccccccccc\n");
+    
+//     //free(a11->next);
+//     a11->next=a12;
+//    a11->val=2;
+//     printf("okokokok\n");
+//    a12->val=4;
+//    a12->next=a13;
+//    a13->val=3;
+//    a13->next=NULL;
+//      printf("a13\n");
+//     //////////////////////////////////////////
+//     a21->val=5;
+//     a21->next=a22;
+//     a22->val=6;
+//    a22->next=a23;
+//    a23->val=4;
+//     a23->next=NULL;
+//      printf("okokokok44444\n");
+//     a1=addTwoNumbers_001(a11, a21);
 
-    printf("sas\n");
-      printf("1=%d\n",a1->val);
-      printf("2=%d\n",a1->next->val);
-     printf("3=%d\n",a1->next->next->val);
-        printf("sas\n");
+//     printf("sas\n");
+//       printf("1=%d\n",a1->val);
+//       printf("2=%d\n",a1->next->val);
+//      printf("3=%d\n",a1->next->next->val);
+//         printf("sas\n");
  
     return 0;
 }
