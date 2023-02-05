@@ -1,5 +1,6 @@
-#include<stdio.h>
+﻿#include<stdio.h>
 #include<stdlib.h>
+//#include "linkrevert.h"
 //编译命令
 // gcc linkrevert.c -o linkrevert
 //gcc linkrevert.c -g -fsanitize=address -o linkrevertll
@@ -314,6 +315,16 @@ int linkedlist_revert001()
 
     return 0;
 }
+#if 0
+//测试cmake引入第三方库是否成功
+int cmakelib_test()
+{
+    printf("%d\n",mysqrt(3));
+    printf("%d\n",linkrevert_VERSION_MAJOR);
+    printf("%d\n",linkrevert_VERSION_MINOR);
+    return 0;
+}
+#endif
 int main()
 {
     struct ListNode* a1;
@@ -334,7 +345,12 @@ int main()
         /* code */
         linkedlist_revert001();
         break;
-    
+#if 0
+    case  11/* constant-expression */:
+        /* code */
+        cmakelib_test();
+        break;
+#endif
     default:
         break;
     }
